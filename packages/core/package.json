@@ -1,0 +1,27 @@
+{
+  "name": "@augment/core",
+  "version": "0.0.0",
+  "description": "Core plugin host system for loading and managing plugins",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": ["plugin", "plugin-system", "extensibility", "dynamic-loading"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6"
+  }
+}
