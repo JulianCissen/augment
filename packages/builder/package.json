@@ -1,0 +1,25 @@
+{
+  "name": "@augment/builder",
+  "version": "0.0.0",
+  "description": "CLI tool for building plugins for the Augment plugin system",
+  "type": "module",
+  "bin": {
+    "augment-builder": "./dist/bin/augment-builder.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["plugin", "builder", "cli", "bundler"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.19.30"
+  }
+}
