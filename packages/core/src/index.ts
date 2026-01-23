@@ -1,6 +1,5 @@
 /**
- * Sample function for testing
+ * @augment/core - Plugin Host System
  */
-export function add(a: number, b: number): number {
-  return a + b;
-}
+
+export * from './types.js';

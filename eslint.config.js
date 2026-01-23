@@ -7,6 +7,7 @@ export default defineConfig([
     ignores: ['**/dist/**', '**/node_modules/**', '**/*.js'],
   },
   {
+    files: ['**/*.ts'],
     extends: [
       ...tseslint.configs.strictTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
