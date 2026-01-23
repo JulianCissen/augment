@@ -1,6 +1,8 @@
 import { PluginScanner } from './scanner.js';
 import { readManifest } from './manifest.js';
-import type { PluginHostOptions, PluginManifest } from './types.js';
+import type { PluginHostOptions, PluginManifest, LoadedPlugin } from './types.js';
+import { join } from 'path';
+import { pathToFileURL } from 'url';
 
 /**
  * Internal wrapper for plugin state
@@ -21,8 +23,8 @@ export class PluginHost<T = unknown> {
   constructor(private readonly options: PluginHostOptions<T>) {}
 
   /**
-   * Scans the plugin folder, parses manifests, and updates the registry.
-   * This method does not load plugin code yet (will be added in Step 9).
+   * Scans the plugin folder, parses manifests, loads plugin code, and updates the registry.
+   * Uses cache-busting to enable hot reloading of plugins.
    */
   async reload(): Promise<void> {
     this.plugins.clear();
@@ -34,12 +36,36 @@ export class PluginHost<T = unknown> {
       try {
         const manifest = await readManifest(pluginPath);
 
+        // Construct the full path to the entry point
+        const entryPointPath = join(pluginPath, manifest.entryPoint);
+
+        // Convert to file:// URL and add cache-busting query parameter
+        const fileUrl = pathToFileURL(entryPointPath);
+        fileUrl.searchParams.set('t', Date.now().toString());
+
+        // Dynamically import the plugin module
+        const loadedModule = await import(fileUrl.href) as { default?: T };
+
+        // Extract the default export or the entire module
+        const pluginCode: unknown = loadedModule.default ?? loadedModule;
+
+        // Validate the plugin if a validator is provided
+        if (this.options.validator) {
+          if (!this.options.validator(pluginCode)) {
+            console.warn(
+              `Plugin validation failed for ${manifest.name} at ${pluginPath}`
+            );
+            continue;
+          }
+        }
+
         this.plugins.set(manifest.name, {
           manifest,
           pluginPath,
+          plugin: pluginCode as T,
         });
       } catch (error) {
-        // Skip plugins with invalid manifests
+        // Skip plugins with invalid manifests or import errors
         console.warn(
           `Failed to load plugin at ${pluginPath}:`,
           (error as Error).message
@@ -49,19 +75,31 @@ export class PluginHost<T = unknown> {
   }
 
   /**
-   * Retrieves all registered plugins
-   * @returns Array of plugin manifests (without loaded code for now)
+   * Retrieves all registered plugins with their loaded code
+   * @returns Array of loaded plugins with manifests and plugin instances
    */
-  getAll(): PluginManifest[] {
-    return Array.from(this.plugins.values()).map((wrapper) => wrapper.manifest);
+  getAll(): LoadedPlugin<T>[] {
+    return Array.from(this.plugins.values())
+      .filter((wrapper) => wrapper.plugin !== undefined)
+      .map((wrapper) => ({
+        manifest: wrapper.manifest,
+        plugin: wrapper.plugin as T,
+      }));
   }
 
   /**
-   * Finds a plugin by name
+   * Finds a loaded plugin by name
    * @param name - The plugin name to search for
-   * @returns The plugin manifest if found, undefined otherwise
+   * @returns The loaded plugin with manifest and code if found, undefined otherwise
    */
-  find(name: string): PluginManifest | undefined {
-    return this.plugins.get(name)?.manifest;
+  find(name: string): LoadedPlugin<T> | undefined {
+    const wrapper = this.plugins.get(name);
+    if (wrapper?.plugin !== undefined) {
+      return {
+        manifest: wrapper.manifest,
+        plugin: wrapper.plugin,
+      };
+    }
+    return undefined;
   }
 }

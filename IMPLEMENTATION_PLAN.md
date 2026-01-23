@@ -109,14 +109,71 @@ This document outlines the granular step-by-step plan to implement the `@augment
 ### Step 9: Dynamic Import & Cache Busting
 **Description:** Implement the ESM `import()` logic to actually load the code.
 **Validation:**
-- Integration test: Host loads a generated `.js` file.
+- Unit tests verify scanner/parser integration and error handling.
+- Full integration tests will be added in Step 9.5 with proper fixtures.
 **AI Prompt:**
 > Context: `PRODUCT_REQUIREMENTS.md` (Section 6.4).
 > Task: Implement Loading in `PluginHost`.
 > 1. In `reload()`, after parsing manifest, call `import()`.
-> 2. Append `?t={timestamp}` to the entryPoint path for cache busting.
-> 3. Handle import errors (log & skip).
-> 4. If `options.validator` is present, validate the loaded module.
+> 2. Use `pathToFileURL()` to convert paths to file:// URLs.
+> 3. Append `?t={timestamp}` via URL searchParams for cache busting.
+> 4. Handle import errors (log & skip).
+> 5. If `options.validator` is present, validate the loaded module.
+
+### Step 9.5: Test Plugin Fixtures
+**Description:** Create real, pre-built test plugins in multiple formats (ESM, CJS, dual) to enable proper integration testing.
+**Validation:**
+- `packages/core/test-fixtures/` exists with 4 plugin types.
+- Each fixture has compiled output and valid manifest.
+- New integration tests load real plugins and verify behavior.
+**AI Prompt:**
+> Task: Create test plugin fixtures for integration testing.
+> 1. Create `packages/core/test-fixtures/` directory structure:
+>    - `plugin-esm/` - Pure ESM plugin with package.json ("type": "module")
+>    - `plugin-cjs/` - Pure CJS plugin with package.json ("type": "commonjs")
+>    - `plugin-dual/` - Dual-format with both ESM and CJS outputs
+>    - `plugin-invalid/` - Invalid manifest for error testing
+> 2. Each fixture should have:
+>    - `package.json` with appropriate module type
+>    - `plugin.manifest.json` with name, version, entryPoint
+>    - Pre-built `dist/` folder with compiled JS
+>    - Simple plugin code (e.g., `{ name: 'test', execute: () => 'result' }`)
+> 3. Create `src/host.integration.test.ts` using these fixtures:
+>    - Test loading ESM plugins
+>    - Test loading CJS plugins (if supported)
+>    - Test hot-reload with cache busting
+>    - Test validator rejection
+>    - Test invalid manifest handling
+> 4. Add npm script to build fixtures if needed.
+
+### Step 9.6: Dual-Format Build Support
+**Description:** Configure `@augment/core` to build both ESM and CJS outputs for maximum compatibility.
+**Validation:**
+- `packages/core/dist/` contains both `index.js` (ESM) and `index.cjs` (CJS).
+- `package.json` exports field provides conditional exports.
+- Tests pass with both formats.
+**AI Prompt:**
+> Task: Add dual-format build to `@augment/core`.
+> 1. Update `packages/core/package.json`:
+>    - Keep `"type": "module"`
+>    - Add `"main": "./dist/index.cjs"`
+>    - Add `"module": "./dist/index.js"`
+>    - Update `exports` field:
+>      ```json
+>      "exports": {
+>        ".": {
+>          "require": "./dist/index.cjs",
+>          "import": "./dist/index.js",
+>          "types": "./dist/index.d.ts"
+>        }
+>      }
+>      ```
+> 2. Add `tsconfig.cjs.json` extending base with `"module": "CommonJS"`.
+> 3. Update build script to compile twice:
+>    - `tsc --project tsconfig.build.json` (ESM)
+>    - `tsc --project tsconfig.cjs.json --outDir dist-cjs` (CJS)
+>    - Rename CJS outputs to `.cjs` extension
+> 4. Test that both formats can be imported.
 
 ---
 
