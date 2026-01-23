@@ -1,0 +1,94 @@
+import { describe, it, expect, jest, beforeEach } from '@jest/globals';
+import { PluginScanner } from './scanner.js';
+import * as fs from 'fs/promises';
+import { sep } from 'path';
+
+jest.mock('fs/promises');
+
+const mockReaddir = fs.readdir as jest.MockedFunction<typeof fs.readdir>;
+const mockAccess = fs.access as jest.MockedFunction<typeof fs.access>;
+
+describe('PluginScanner', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('scanDirectories', () => {
+    it('should find directories containing plugin.manifest.json', async () => {
+      const mockDirents = [
+        { name: 'plugin-a', isDirectory: (): boolean => true, isFile: (): boolean => false },
+        { name: 'plugin-b', isDirectory: (): boolean => true, isFile: (): boolean => false },
+        { name: 'not-a-plugin', isDirectory: (): boolean => true, isFile: (): boolean => false },
+        { name: 'file.txt', isDirectory: (): boolean => false, isFile: (): boolean => true },
+      ];
+
+      mockReaddir.mockResolvedValue(mockDirents as never);
+      mockAccess.mockImplementation(async (path: string | Buffer | URL) => {
+        const pathStr = path.toString();
+        if (pathStr.includes('plugin-a') || pathStr.includes('plugin-b')) {
+          return Promise.resolve();
+        }
+        throw new Error('ENOENT');
+      });
+
+      const scanner = new PluginScanner('/test/plugins');
+      const result = await scanner.scanDirectories();
+
+      expect(result).toHaveLength(2);
+      expect(result).toContain(`${sep}test${sep}plugins${sep}plugin-a`);
+      expect(result).toContain(`${sep}test${sep}plugins${sep}plugin-b`);
+      expect(result).not.toContain(`${sep}test${sep}plugins${sep}not-a-plugin`);
+    });
+
+    it('should return empty array when no plugin directories exist', async () => {
+      const mockDirents = [
+        { name: 'folder1', isDirectory: (): boolean => true, isFile: (): boolean => false },
+        { name: 'folder2', isDirectory: (): boolean => true, isFile: (): boolean => false },
+      ];
+
+      mockReaddir.mockResolvedValue(mockDirents as never);
+      mockAccess.mockRejectedValue(new Error('ENOENT'));
+
+      const scanner = new PluginScanner('/test/plugins');
+      const result = await scanner.scanDirectories();
+
+      expect(result).toHaveLength(0);
+    });
+
+    it('should ignore files in the root directory', async () => {
+      const mockDirents = [
+        { name: 'file1.txt', isDirectory: (): boolean => false, isFile: (): boolean => true },
+        { name: 'file2.js', isDirectory: (): boolean => false, isFile: (): boolean => true },
+      ];
+
+      mockReaddir.mockResolvedValue(mockDirents as never);
+
+      const scanner = new PluginScanner('/test/plugins');
+      const result = await scanner.scanDirectories();
+
+      expect(result).toHaveLength(0);
+      expect(mockAccess).not.toHaveBeenCalled();
+    });
+
+    it('should throw error when root path does not exist', async () => {
+      const error = new Error('ENOENT') as NodeJS.ErrnoException;
+      error.code = 'ENOENT';
+      mockReaddir.mockRejectedValue(error);
+
+      const scanner = new PluginScanner('/nonexistent');
+
+      await expect(scanner.scanDirectories()).rejects.toThrow(
+        'Plugin directory not found: /nonexistent'
+      );
+    });
+
+    it('should propagate other filesystem errors', async () => {
+      const error = new Error('Permission denied');
+      mockReaddir.mockRejectedValue(error);
+
+      const scanner = new PluginScanner('/test/plugins');
+
+      await expect(scanner.scanDirectories()).rejects.toThrow('Permission denied');
+    });
+  });
+});
