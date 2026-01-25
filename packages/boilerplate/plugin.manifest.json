@@ -1,0 +1,9 @@
+{
+  "name": "my-augment-plugin",
+  "version": "1.0.0",
+  "entryPoint": "./index.js",
+  "meta": {
+    "description": "A basic Augment plugin",
+    "category": "general"
+  }
+}

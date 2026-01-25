@@ -53,6 +53,8 @@ Thumbs.db
 *.temp
 .cache/
 .temp/
+test-plugins/
+test-load-plugin.js
 
 # Environment
 .env
