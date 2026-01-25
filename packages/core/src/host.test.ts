@@ -1,8 +1,9 @@
-import { describe, it, expect, jest, beforeEach } from '@jest/globals';
+import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
 import { PluginHost } from './host.js';
 import type { PluginHostOptions } from './types.js';
 import * as scannerModule from './scanner.js';
 import * as manifestModule from './manifest.js';
+import { suppressExpectedWarnings } from './__tests__/test-helpers.js';
 
 jest.mock('./scanner.js');
 jest.mock('./manifest.js');
@@ -16,9 +17,15 @@ describe('PluginHost', () => {
   const mockOptions: PluginHostOptions<unknown> = {
     folder: '/test/plugins',
   };
+  let consoleWarnSpy: jest.SpiedFunction<typeof console.warn>;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    consoleWarnSpy = suppressExpectedWarnings();
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
   });
 
   describe('constructor', () => {

@@ -1,0 +1,9 @@
+{
+  "name": "test-plugin-esm",
+  "version": "1.0.0",
+  "entryPoint": "./dist/index.mjs",
+  "meta": {
+    "description": "ESM test plugin",
+    "format": "esm"
+  }
+}

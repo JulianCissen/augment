@@ -1,0 +1,9 @@
+{
+  "name": "test-plugin-cjs",
+  "version": "1.0.0",
+  "entryPoint": "./dist/index.cjs",
+  "meta": {
+    "description": "CommonJS test plugin",
+    "format": "cjs"
+  }
+}

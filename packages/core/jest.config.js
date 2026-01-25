@@ -13,6 +13,6 @@ export default {
       },
     ],
   },
-  testMatch: ['**/*.test.ts'],
-  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.test.ts', '!src/**/*.spec.ts'],
+  testMatch: ['**/*.test.ts', '!**/*.esm.test.ts'],
+  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.test.ts', '!src/**/*.spec.ts', '!src/__tests__/**'],
 };
