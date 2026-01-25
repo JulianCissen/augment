@@ -1,29 +1,42 @@
 {
   "name": "@augment/builder",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "CLI tool for building plugins for the Augment plugin system",
-  "type": "module",
-  "bin": {
-    "augment-builder": "./dist/bin/augment-builder.js"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
-  },
   "keywords": [
     "plugin",
     "builder",
     "cli",
     "bundler"
   ],
-  "author": "",
   "license": "MIT",
+  "author": "Julian Cissen",
+  "homepage": "https://github.com/JulianCissen/augment",
+  "repository": {
+    "type": "git",
+    "url": "github:JulianCissen/augment"
+  },
+  "bugs": {
+    "url": "https://github.com/JulianCissen/augment/issues"
+  },
+  "type": "module",
+  "bin": {
+    "augment-builder": "./dist/bin/augment-builder.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
   "devDependencies": {
     "@types/adm-zip": "^0.5.7",
     "@types/node": "^20.19.30"

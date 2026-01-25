@@ -2,6 +2,15 @@
   "name": "@augment/boilerplate",
   "version": "1.0.0",
   "description": "Official boilerplate template for creating Augment plugins",
+  "keywords": [
+    "augment",
+    "plugin",
+    "template",
+    "boilerplate"
+  ],
+  "license": "MIT",
+  "author": "Julian Cissen",
+  "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
@@ -9,18 +18,10 @@
     "build:zip": "augment-builder build -i ./src -o ./dist --zip",
     "dev": "augment-builder watch -i ./src -o ./dist"
   },
-  "keywords": [
-    "augment",
-    "plugin",
-    "template",
-    "boilerplate"
-  ],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "@augment/builder": "^0.0.0"
+    "@augment/builder": "^0.1.0"
   },
   "peerDependencies": {
-    "@augment/core": "^0.0.0"
+    "@augment/core": "^0.1.0"
   }
 }

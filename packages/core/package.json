@@ -1,11 +1,32 @@
 {
   "name": "@augment/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Core plugin host system for loading and managing plugins",
+  "keywords": [
+    "plugin",
+    "plugin-system",
+    "extensibility",
+    "dynamic-loading"
+  ],
+  "license": "MIT",
+  "author": "Julian Cissen",
+  "homepage": "https://github.com/JulianCissen/augment",
+  "repository": {
+    "type": "git",
+    "url": "github:JulianCissen/augment"
+  },
+  "bugs": {
+    "url": "https://github.com/JulianCissen/augment/issues"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -18,16 +39,9 @@
     "test": "npm run test:unit && npm run test:esm",
     "test:unit": "jest",
     "test:esm": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.esm.mjs",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
-  "keywords": [
-    "plugin",
-    "plugin-system",
-    "extensibility",
-    "dynamic-loading"
-  ],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "@types/adm-zip": "^0.5.7",
     "@types/jest": "^30.0.0",
