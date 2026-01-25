@@ -476,7 +476,7 @@ const uiHost = new PluginHost<UIPlugin>({
 
 ## Requirements
 
-- Node.js 18 or higher
+- Node.js 20 or higher
 - ESM support (built-in)
 
 ## Related Packages

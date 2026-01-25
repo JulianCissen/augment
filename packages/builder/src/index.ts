@@ -144,7 +144,7 @@ export async function buildPlugin(options: BuildOptions): Promise<void> {
     bundle: true,
     format: 'esm',
     platform: 'node',
-    target: 'node18',
+    target: 'node20',
     outfile: join(outputDir, 'index.js'),
     sourcemap: true,
     minify: options.minify ?? false,
@@ -217,7 +217,7 @@ export async function watchPlugin(options: WatchOptions): Promise<void> {
     bundle: true,
     format: 'esm',
     platform: 'node',
-    target: 'node18',
+    target: 'node20',
     outfile: join(outputDir, 'index.js'),
     sourcemap: true,
     external: [
