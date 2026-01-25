@@ -1,0 +1,9 @@
+{
+  "name": "test-plugin",
+  "version": "1.0.0",
+  "entryPoint": "./index.js",
+  "description": "A test plugin for verifying the builder",
+  "meta": {
+    "category": "test"
+  }
+}

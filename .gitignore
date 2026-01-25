@@ -3,31 +3,65 @@ node_modules/
 
 # Build outputs
 dist/
+dist-minified/
 build/
 *.tsbuildinfo
 
+# Test fixtures built output (keep source, ignore builds)
+packages/*/test-fixtures/**/dist/
+packages/*/test-fixtures/**/dist-minified/
+packages/*/test-fixtures/**/*.zip
+examples/**/dist/
+examples/**/dist-minified/
+examples/**/*.zip
+
+# Plugin archives (Step 12 - ZIP output)
+*.plugin.zip
+plugin.zip
+
 # Test coverage
 coverage/
+*.lcov
 
 # Logs
 logs/
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-project
+*.sublime-workspace
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Temp files
 *.tmp
+*.temp
 .cache/
+.temp/
 
 # Environment
 .env
 .env.local
+.env.*.local
+
+# Package manager
+.pnpm-store/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz

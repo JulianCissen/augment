@@ -16,10 +16,19 @@
     "build": "tsc",
     "dev": "tsc --watch"
   },
-  "keywords": ["plugin", "builder", "cli", "bundler"],
+  "keywords": [
+    "plugin",
+    "builder",
+    "cli",
+    "bundler"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.19.30"
+  },
+  "dependencies": {
+    "commander": "^14.0.2",
+    "esbuild": "^0.27.2"
   }
 }

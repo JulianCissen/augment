@@ -2,6 +2,24 @@
 
 This document outlines the granular step-by-step plan to implement the `@augment` monorepo. Each step is focused on a specific component, testable in isolation, and safe for iterative AI development.
 
+## Project Structure
+
+```
+node-plugins/
+├── packages/
+│   ├── core/               # Plugin host system
+│   │   ├── src/
+│   │   └── test-fixtures/  # Pre-built plugins for host testing
+│   ├── builder/            # Build tool and CLI
+│   │   ├── src/
+│   │   └── test-fixtures/  # Source plugins for builder testing
+│   └── boilerplate/        # Official plugin template
+├── examples/               # User-facing example plugins
+│   ├── hello-world/
+│   └── advanced-plugin/
+└── tests/                  # E2E integration tests
+```
+
 ## Phase 1: Foundation & Setup
 
 ### Step 1: Monorepo Root Setup
@@ -215,17 +233,26 @@ This document outlines the granular step-by-step plan to implement the `@augment
 
 ## Phase 4: Integration
 
-### Step 13: Boilerplate Package
-**Description:** Create `@augment/boilerplate`.
+### Step 13: Boilerplate Package & Examples
+**Description:** Create `@augment/boilerplate` package and example plugins.
 **Validation:**
-- `packages/boilerplate` exists and is installable.
+- `packages/boilerplate/` exists with standard plugin structure.
+- `examples/hello-world/` demonstrates basic plugin usage.
 **AI Prompt:**
-> Task: Create `@augment/boilerplate`.
-> 1. Scaffold standard structure (`src/index.ts`, `plugin.manifest.json`).
-> 2. Configured to use `@augment/builder`.
+> Task: Create boilerplate and examples.
+> 1. Create `packages/boilerplate/` package:
+>    - Standard structure: `src/index.ts`, `plugin.manifest.json`, `package.json`
+>    - Configured to use `@augment/builder` for building
+>    - Includes TypeScript configuration
+>    - README with setup instructions
+> 2. Create `examples/hello-world/`:
+>    - Copy boilerplate structure
+>    - Add meaningful example code
+>    - Document how to build and test
+> 3. Both should be buildable with `@augment/builder`.
 
 ### Step 14: End-to-End Test
-**Description:** A script that uses the Builder to build the Boilerplate, then uses Core to load it.
+**Description:** Integration tests that build plugins and load them with the host.
 **Validation:**
 - `npm test:e2e` passes.
 **AI Prompt:**
@@ -262,3 +289,38 @@ This document outlines the granular step-by-step plan to implement the `@augment
 > 1. Write `packages/core/README.md` (Installation, API usage).
 > 2. Write `packages/builder/README.md` (CLI usage).
 > 3. Create `docs/authoring-guide.md` explaining how to create a plugin from scratch using the boilerplate.
+
+---
+
+## Phase 6: Developer Experience Enhancements
+
+### Step 17: Project Scaffolding
+**Description:** Add `init` command to `@augment/builder` to scaffold new plugin projects.
+**Validation:**
+- `augment-builder init <plugin-name>` creates a complete plugin project structure.
+- Generated project includes `package.json`, `tsconfig.json`, `src/index.ts`, and `plugin.manifest.json`.
+**AI Prompt:**
+> Task: Implement project scaffolding in `@augment/builder`.
+> 1. Add `init` command to CLI with `<plugin-name>` argument.
+> 2. Create templates for plugin project files:
+>    - `package.json` with dependencies on `@augment/core` types
+>    - `tsconfig.json` with appropriate compiler options
+>    - `plugin.manifest.json` with required fields
+>    - `src/index.ts` with basic plugin structure
+>    - `.gitignore` with build artifacts
+> 3. Prompt for optional fields: description, version, author.
+> 4. Copy templates to target directory and perform string replacements.
+
+### Step 18: Code Generation Helpers
+**Description:** Add `generate` command for creating plugin components (optional enhancement).
+**Validation:**
+- `augment-builder generate <type>` creates boilerplate code for common plugin patterns.
+**AI Prompt:**
+> Task: Add code generation helpers to `@augment/builder`.
+> 1. Add `generate` command with component type argument.
+> 2. Support common patterns:
+>    - `generate handler` - Create a new handler/command
+>    - `generate test` - Generate test file for current module
+>    - `generate config` - Add configuration schema
+> 3. Use templates and inject into existing files where appropriate.
+

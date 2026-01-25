@@ -1,0 +1,5 @@
+{
+  "name": "test-plugin",
+  "type": "module",
+  "private": true
+}
