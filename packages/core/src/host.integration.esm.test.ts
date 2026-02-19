@@ -8,6 +8,12 @@ import { suppressExpectedWarnings } from './__tests__/test-helpers.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+interface TestPlugin {
+  name: string;
+  format: string;
+  execute: (input: string) => string;
+}
+
 describe('PluginHost - Jest ESM Mode Integration', () => {
   const fixturesPath = resolve(__dirname, '../test-fixtures');
   let consoleWarnSpy: jest.SpiedFunction<typeof console.warn>;
@@ -35,7 +41,7 @@ describe('PluginHost - Jest ESM Mode Integration', () => {
     expect(esmPlugin?.manifest.version).toBe('1.0.0');
     expect(esmPlugin?.manifest.meta?.format).toBe('esm');
 
-    const plugin = esmPlugin?.plugin as any;
+    const plugin = esmPlugin?.plugin as TestPlugin;
     expect(plugin.name).toBe('ESM Test Plugin');
     expect(plugin.format).toBe('esm');
     expect(plugin.execute('test')).toBe('ESM processed: test');

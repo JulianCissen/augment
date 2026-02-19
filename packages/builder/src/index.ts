@@ -110,7 +110,7 @@ async function createZipArchive(outputDir: string, manifest: PluginManifest): Pr
   
   for (const file of files) {
     if (file.isFile()) {
-      const filePath = join(file.path, file.name);
+      const filePath = join(file.parentPath, file.name);
       const relativePath = filePath.substring(outputDir.length + 1);
       zip.addLocalFile(filePath, dirname(relativePath));
     }

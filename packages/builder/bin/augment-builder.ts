@@ -59,7 +59,7 @@ program
   .option('-y, --yes', 'Skip prompts and use defaults', false)
   .action(async (pluginName: string, cmdOptions: { description?: string; author?: string; version?: string; yes?: boolean }) => {
     try {
-      let options: InitOptions = {
+      const options: InitOptions = {
         name: pluginName,
         version: cmdOptions.version,
         description: cmdOptions.description,
@@ -70,13 +70,8 @@ program
       if (!cmdOptions.yes) {
         const rl = readline.createInterface({ input, output });
 
-        if (!options.description) {
-          options.description = await rl.question('Description (optional): ');
-        }
-
-        if (!options.author) {
-          options.author = await rl.question('Author (optional): ');
-        }
+        options.description ??= await rl.question('Description (optional): ');
+        options.author ??= await rl.question('Author (optional): ');
 
         rl.close();
       }

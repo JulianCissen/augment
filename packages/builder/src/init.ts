@@ -10,17 +10,17 @@ export interface InitOptions {
 }
 
 const templates = {
-  packageJson: (options: InitOptions) => ({
+  packageJson: (options: InitOptions): Record<string, unknown> => ({
     name: options.name,
-    version: options.version || '1.0.0',
-    description: options.description || 'A plugin for the Augment plugin system',
+    version: options.version ?? '1.0.0',
+    description: options.description ?? 'A plugin for the Augment plugin system',
     type: 'module',
     scripts: {
       build: 'augment-builder build',
       watch: 'augment-builder watch',
     },
     keywords: ['augment', 'plugin'],
-    author: options.author || '',
+    author: options.author ?? '',
     license: 'MIT',
     devDependencies: {
       '@augment/builder': '^0.0.0',
@@ -28,7 +28,7 @@ const templates = {
     },
   }),
 
-  tsconfig: () => ({
+  tsconfig: (): Record<string, unknown> => ({
     compilerOptions: {
       target: 'ES2022',
       module: 'ES2022',
@@ -43,19 +43,19 @@ const templates = {
     exclude: ['node_modules', 'dist'],
   }),
 
-  manifest: (options: InitOptions) => ({
+  manifest: (options: InitOptions): Record<string, unknown> => ({
     name: options.name,
-    version: options.version || '1.0.0',
+    version: options.version ?? '1.0.0',
     entryPoint: './dist/index.js',
     meta: {
-      description: options.description || 'A plugin for the Augment plugin system',
-      author: options.author || '',
+      description: options.description ?? 'A plugin for the Augment plugin system',
+      author: options.author ?? '',
     },
   }),
 
-  indexTs: (options: InitOptions) => `export default {
+  indexTs: (options: InitOptions): string => `export default {
   name: '${options.name}',
-  version: '${options.version || '1.0.0'}',
+  version: '${options.version ?? '1.0.0'}',
 
   /**
    * Initialize the plugin
@@ -81,7 +81,7 @@ const templates = {
 };
 `,
 
-  gitignore: () => `# Dependencies
+  gitignore: (): string => `# Dependencies
 node_modules/
 
 # Build output
@@ -107,9 +107,9 @@ npm-debug.log*
 .env.local
 `,
 
-  readme: (options: InitOptions) => `# ${options.name}
+  readme: (options: InitOptions): string => `# ${options.name}
 
-${options.description || 'A plugin for the Augment plugin system'}
+${options.description ?? 'A plugin for the Augment plugin system'}
 
 ## Installation
 

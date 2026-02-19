@@ -4,7 +4,7 @@ import prettier from 'eslint-config-prettier';
 
 export default defineConfig([
   {
-    ignores: ['**/dist/**', '**/node_modules/**', '**/*.js'],
+    ignores: ['**/dist/**', '**/node_modules/**', '**/*.js', '**/test-fixtures/**', '**/examples/**'],
   },
   {
     files: ['**/*.ts'],
