@@ -28,10 +28,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build packages
+      - name: Build @augment/core
+        working-directory: ./packages/core
+        run: npm run build
+      
+      - name: Build @augment/builder
+        working-directory: ./packages/builder
         run: npm run build
       
       - name: Run tests
+        working-directory: ./packages/core
         run: npm test
       
       - name: Run linter
