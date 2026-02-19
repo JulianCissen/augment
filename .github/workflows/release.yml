@@ -4,11 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version bump type (patch, minor, major) or specific version'
+        description: 'Version bump type or skip to use current versions'
         required: true
         default: 'patch'
         type: choice
         options:
+          - none
           - patch
           - minor
           - major
@@ -54,18 +55,24 @@ jobs:
       - name: Bump versions
         id: version
         run: |
-          cd packages/core
-          npm version ${{ github.event.inputs.version }} --no-git-tag-version
-          NEW_VERSION=$(node -p "require('./package.json').version")
-          echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
-          
-          cd ../builder
-          npm version ${NEW_VERSION} --no-git-tag-version --allow-same-version
-          
-          cd ../..
-          git add packages/core/package.json packages/builder/package.json
-          git commit -m "chore: bump version to ${NEW_VERSION}"
-          git push
+          if [ "${{ github.event.inputs.version }}" != "none" ]; then
+            cd packages/core
+            npm version ${{ github.event.inputs.version }} --no-git-tag-version
+            NEW_VERSION=$(node -p "require('./package.json').version")
+            echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+            
+            cd ../builder
+            npm version ${NEW_VERSION} --no-git-tag-version --allow-same-version
+            
+            cd ../..
+            git add packages/core/package.json packages/builder/package.json
+            git commit -m "chore: bump version to ${NEW_VERSION}"
+            git push
+          else
+            cd packages/core
+            NEW_VERSION=$(node -p "require('./package.json').version")
+            echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+          fi
       
       - name: Publish @augment/core
         working-directory: ./packages/core
