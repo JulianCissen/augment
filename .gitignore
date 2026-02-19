@@ -7,8 +7,11 @@ dist-minified/
 build/
 *.tsbuildinfo
 
+# But keep core test fixtures (they are static test files, not build output)
+!packages/core/test-fixtures/**/dist/
+
 # Test fixtures built output (keep source, ignore builds)
-packages/*/test-fixtures/**/dist/
+packages/builder/test-fixtures/**/dist/
 packages/*/test-fixtures/**/dist-minified/
 packages/*/test-fixtures/**/*.zip
 examples/**/dist/
