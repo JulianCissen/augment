@@ -1,7 +1,7 @@
 /**
  * Hello World Plugin
  * 
- * A minimal example demonstrating the Augment plugin system.
+ * A minimal example demonstrating the Moduul plugin system.
  * This plugin greets users and demonstrates basic plugin structure.
  */
 
@@ -34,8 +34,8 @@ const plugin: HelloWorldPlugin = {
   greet: (name?: string): string => {
     callCount++;
     const greeting = name 
-      ? `Hello, ${name}! Welcome to Augment plugins.`
-      : 'Hello, World! This is an Augment plugin.';
+      ? `Hello, ${name}! Welcome to Moduul plugins.`
+      : 'Hello, World! This is a Moduul plugin.';
     
     console.log(`[HelloWorld] ${greeting}`);
     return greeting;

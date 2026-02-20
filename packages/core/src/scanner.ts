@@ -12,7 +12,7 @@ export class PluginScanner {
   private readonly cacheDir: string;
 
   constructor(private readonly rootPath: string) {
-    this.cacheDir = join(tmpdir(), 'augment-cache');
+    this.cacheDir = join(tmpdir(), 'moduul-cache');
   }
 
   /**

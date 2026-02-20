@@ -1,13 +1,13 @@
 # Project Structure
 
-This document explains the organization of the Augment plugin system monorepo.
+This document explains the organization of the Moduul plugin system monorepo.
 
 ## Directory Layout
 
 ```
 node-plugins/
 ├── packages/               # Published npm packages
-│   ├── core/              # @augment/core - Plugin host system
+│   ├── core/              # @moduul/core - Plugin host system
 │   │   ├── src/           # Source code
 │   │   ├── dist/          # Built output
 │   │   └── test-fixtures/ # Pre-built plugins for testing the host
@@ -15,14 +15,14 @@ node-plugins/
 │   │       ├── plugin-cjs/      (Step 9.5)
 │   │       └── plugin-dual/     (Step 9.5)
 │   │
-│   ├── builder/           # @augment/builder - CLI build tool
+│   ├── builder/           # @moduul/builder - CLI build tool
 │   │   ├── src/           # Source code
 │   │   ├── bin/           # CLI entry point
 │   │   ├── dist/          # Built output
 │   │   └── test-fixtures/ # Source plugins for testing the builder
 │   │       └── simple-plugin/   # Basic TypeScript plugin
 │   │
-│   └── boilerplate/       # @augment/boilerplate - Official template (Step 13)
+│   └── boilerplate/       # @moduul/boilerplate - Official template (Step 13)
 │       ├── src/
 │       └── plugin.manifest.json
 │

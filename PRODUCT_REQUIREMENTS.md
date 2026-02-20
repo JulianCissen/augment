@@ -31,20 +31,20 @@ A plugin is a distributable unit containing:
 ## 3. Packages
 The product will be organized as a monorepo (or distinct packages) containing:
 
-1.  **`@augment/core` (The Host System)**
+1.  **`@moduul/core` (The Host System)**
     -   The main runtime library.
     -   Handles discovery, loading, validation, and lifecycle management.
     -   Exposes the `PluginHost` class.
 
-2.  **`@augment/builder` (The CLI/Builder)**
+2.  **`@moduul/builder` (The CLI/Builder)**
     -   CLI tool or library helpers.
     -   Compiles TypeScript plugin code into the standardized distribution format.
     -   Validates manifests during build time.
 
-3.  **`@augment/boilerplate`**
+3.  **`@moduul/boilerplate`**
     -   A starter template repository or generator for creating a new plugin.
 
-4.  **`@augment/example-plugin`**
+4.  **`@moduul/example-plugin`**
     -   A reference implementation used for testing and documentation.
 
 ## 4. Artifacts
@@ -96,7 +96,7 @@ The product will be organized as a monorepo (or distinct packages) containing:
 ### 6.2 Dependency Handling & Debugging
 **Decision:** **Bundled Dependencies with Source Maps**.
 -   Plugins **must** bundle their dependencies (excluding shared host packages) into a single artifact to avoid `node_modules` conflicts.
--   The `@augment/builder` will use a bundler (e.g., `esbuild`) to produce a single `.js` output.
+-   The `@moduul/builder` will use a bundler (e.g., `esbuild`) to produce a single `.js` output.
 -   **Debugging:** The builder **must** generate source maps (`.js.map`) by default. This ensures that stack traces trace back to the original TypeScript source code, making the bundling process transparent during troubleshooting.
 
 ### 6.3 Sandboxing & Isolation
@@ -154,7 +154,7 @@ class PluginHost<T> {
   find(predicate: (m: Manifest) => boolean): T | undefined;
 }
 
-### 7.3 Builder CLI (`@augment/builder`)
+### 7.3 Builder CLI (`@moduul/builder`)
 The builder abstracts the complexity of `esbuild` and manifest validation.
 
 **Commands:**
@@ -182,7 +182,7 @@ my-plugin/
 To ensure the Host and Plugin agree on the Signature `T`:
 1.  **Shared Types Package:** The Host App publishes a lightweight package (e.g., `my-app-types`) containing the signature interface.
 2.  **Plugin Dependencies:**
-    -   `devDependencies`: `@augment/builder`, `typescript`.
+    -   `devDependencies`: `@moduul/builder`, `typescript`.
     -   `peerDependencies`: `my-app-types` (ensures type compatibility without bundling).
     -   `dependencies`: Any internal logic libraries (lodash, axios, etc.) -> **These are BUNDLED**.
 
@@ -190,7 +190,7 @@ To ensure the Host and Plugin agree on the Signature `T`:
 
 ### 8.1 Documentation
 -   **Package READMEs:** Every package in the monorepo must have a README explaining its purpose, installation, and public API.
--   **JSDoc:** All exported classes, methods, and interfaces in `@augment/core` must have JSDoc comments to provide IntelliSense support for consumers.
+-   **JSDoc:** All exported classes, methods, and interfaces in `@moduul/core` must have JSDoc comments to provide IntelliSense support for consumers.
 -   **Guides:** A dedicated "Plugin Authoring Guide" must be created, walking through the process from `npm init` to `npm publish`.
 
 ### 8.2 Code Quality & Standards
@@ -199,8 +199,8 @@ To ensure the Host and Plugin agree on the Signature `T`:
 -   **Conventional Commits:** Commit messages should follow the Conventional Commits specification to allow for automated versioning and changelog generation.
 
 ### 8.3 Testing
--   **Unit Tests:** High coverage (>80%) required for `@augment/core` logic (especially discovery and validation).
--   **Integration Tests:** End-to-end tests that spin up a real `PluginHost`, build a real plugin using `@augment/builder`, load it, and execute it.
+-   **Unit Tests:** High coverage (>80%) required for `@moduul/core` logic (especially discovery and validation).
+-   **Integration Tests:** End-to-end tests that spin up a real `PluginHost`, build a real plugin using `@moduul/builder`, load it, and execute it.
 -   **OS Compatibility:** Tests must pass on both Windows and Linux/macOS (handling path separators `\` vs `/` correctly is critical for file scanning).
 
 ### 8.4 Performance

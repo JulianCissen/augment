@@ -13,17 +13,17 @@ const templates = {
   packageJson: (options: InitOptions): Record<string, unknown> => ({
     name: options.name,
     version: options.version ?? '1.0.0',
-    description: options.description ?? 'A plugin for the Augment plugin system',
+    description: options.description ?? 'A plugin for the Moduul plugin system',
     type: 'module',
     scripts: {
-      build: 'augment-builder build',
-      watch: 'augment-builder watch',
+      build: 'moduul-builder build',
+      watch: 'moduul-builder watch',
     },
-    keywords: ['augment', 'plugin'],
+    keywords: ['moduul', 'plugin'],
     author: options.author ?? '',
     license: 'MIT',
     devDependencies: {
-      '@augment/builder': '^0.0.0',
+      '@moduul/builder': '^0.0.0',
       typescript: '^5.3.0',
     },
   }),
@@ -48,7 +48,7 @@ const templates = {
     version: options.version ?? '1.0.0',
     entryPoint: './dist/index.js',
     meta: {
-      description: options.description ?? 'A plugin for the Augment plugin system',
+      description: options.description ?? 'A plugin for the Moduul plugin system',
       author: options.author ?? '',
     },
   }),
@@ -109,7 +109,7 @@ npm-debug.log*
 
   readme: (options: InitOptions): string => `# ${options.name}
 
-${options.description ?? 'A plugin for the Augment plugin system'}
+${options.description ?? 'A plugin for the Moduul plugin system'}
 
 ## Installation
 
@@ -129,10 +129,10 @@ npm run watch
 
 ## Usage
 
-Load this plugin using the Augment plugin system:
+Load this plugin using the Moduul plugin system:
 
 \`\`\`typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 const host = new PluginHost({ folder: './path/to/${options.name}' });
 await host.reload();

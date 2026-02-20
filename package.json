@@ -1,6 +1,6 @@
 {
-  "name": "@augment/monorepo",
-  "description": "Augment plugin system monorepo",
+  "name": "@moduul/monorepo",
+  "description": "Moduul plugin system monorepo",
   "license": "MIT",
   "private": true,
   "workspaces": [

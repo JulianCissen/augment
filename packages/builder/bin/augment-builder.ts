@@ -9,8 +9,8 @@ import { stdin as input, stdout as output } from 'process';
 const program = new Command();
 
 program
-  .name('augment-builder')
-  .description('CLI tool for building plugins for the Augment plugin system')
+  .name('moduul-builder')
+  .description('CLI tool for building plugins for the Moduul plugin system')
   .version('0.0.0');
 
 program

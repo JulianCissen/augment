@@ -1,7 +1,7 @@
 /**
- * My Augment Plugin
+ * My Moduul Plugin
  * 
- * This is a template for creating plugins for the Augment plugin system.
+ * This is a template for creating plugins for the Moduul plugin system.
  * Replace this code with your own plugin implementation.
  */
 
@@ -19,7 +19,7 @@ export interface MyPlugin {
  * Plugin implementation
  */
 const plugin: MyPlugin = {
-  name: 'My Augment Plugin',
+  name: 'My Moduul Plugin',
   version: '1.0.0',
   
   /**

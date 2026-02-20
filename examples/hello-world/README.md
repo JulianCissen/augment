@@ -1,6 +1,6 @@
 # Hello World Plugin
 
-A minimal example plugin demonstrating the Augment plugin system.
+A minimal example plugin demonstrating the Moduul plugin system.
 
 ## What This Example Demonstrates
 
@@ -42,8 +42,8 @@ node -e "import('./dist/index.js').then(m => { console.log(m.default.greet('Deve
 
 Expected output:
 ```
-[HelloWorld] Hello, Developer! Welcome to Augment plugins.
-Hello, Developer! Welcome to Augment plugins.
+[HelloWorld] Hello, Developer! Welcome to Moduul plugins.
+Hello, Developer! Welcome to Moduul plugins.
 { uptime: 5, callCount: 1 }
 ```
 
@@ -55,8 +55,8 @@ Greets a user by name. If no name is provided, returns a generic greeting.
 
 **Example:**
 ```typescript
-plugin.greet('Alice'); // "Hello, Alice! Welcome to Augment plugins."
-plugin.greet();        // "Hello, World! This is an Augment plugin."
+plugin.greet('Alice'); // "Hello, Alice! Welcome to Moduul plugins."
+plugin.greet();        // "Hello, World! This is a Moduul plugin."
 ```
 
 ### `getInfo(): { uptime: number; callCount: number }`
@@ -88,10 +88,10 @@ hello-world/
 
 ## Building with the Host
 
-To load this plugin using `@augment/core`:
+To load this plugin using `@moduul/core`:
 
 ```typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 // Create a host pointing to the built plugin
 const host = new PluginHost({

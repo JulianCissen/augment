@@ -1,6 +1,6 @@
-# @augment/boilerplate
+# @moduul/boilerplate
 
-Official boilerplate template for creating Augment plugins.
+Official boilerplate template for creating Moduul plugins.
 
 ## Quick Start
 
@@ -89,7 +89,7 @@ my-plugin/
 Create a test file to load and test your plugin:
 
 ```typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 const host = new PluginHost({
   folder: './dist'
@@ -109,7 +109,7 @@ if (myPlugin) {
 Your plugin must:
 1. Have a `plugin.manifest.json` with `name`, `version`, and `entryPoint`
 2. Export a default module from the entry point
-3. Be buildable with `@augment/builder`
+3. Be buildable with `@moduul/builder`
 
 ## Best Practices
 

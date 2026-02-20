@@ -1,6 +1,6 @@
 # Plugin Authoring Guide
 
-Complete guide to creating plugins for the Augment plugin system.
+Complete guide to creating plugins for the Moduul plugin system.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ Complete guide to creating plugins for the Augment plugin system.
 
 ### What is a Plugin?
 
-A plugin is a self-contained module that can be dynamically loaded by the Augment plugin system. Plugins extend the functionality of host applications without requiring code changes or recompilation.
+A plugin is a self-contained module that can be dynamically loaded by the Moduul plugin system. Plugins extend the functionality of host applications without requiring code changes or recompilation.
 
 **Key Characteristics:**
 - **Self-contained** - All code bundled into a single file
@@ -56,7 +56,7 @@ npm init -y
 #### Install Dependencies
 
 ```bash
-npm install -D @augment/builder typescript
+npm install -D @moduul/builder typescript
 ```
 
 #### Create Configuration Files
@@ -68,11 +68,11 @@ npm install -D @augment/builder typescript
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "augment-builder build",
-    "dev": "augment-builder build --watch"
+    "build": "moduul-builder build",
+    "dev": "moduul-builder build --watch"
   },
   "devDependencies": {
-    "@augment/builder": "^0.0.0",
+    "@moduul/builder": "^0.0.0",
     "typescript": "^5.3.0"
   }
 }
@@ -234,7 +234,7 @@ export default {
 };
 ```
 
-**Note:** Dependencies are bundled by `@augment/builder` automatically.
+**Note:** Dependencies are bundled by `@moduul/builder` automatically.
 
 ### Error Handling
 
@@ -335,7 +335,7 @@ Create a test file:
 
 **test.js:**
 ```typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 const host = new PluginHost({
   folder: './dist'
@@ -655,13 +655,13 @@ Check out the [examples directory](../../examples/) for complete working example
 
 ## Support
 
-- **Documentation**: [GitHub Wiki](https://github.com/your-org/augment)
-- **Issues**: [GitHub Issues](https://github.com/your-org/augment/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-org/augment/discussions)
+- **Documentation**: [GitHub Wiki](https://github.com/your-org/moduul)
+- **Issues**: [GitHub Issues](https://github.com/your-org/moduul/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-org/moduul/discussions)
 
 ## Next Steps
 
 1. Build your first plugin using the boilerplate
-2. Test it with `@augment/core`
+2. Test it with `@moduul/core`
 3. Add features incrementally
 4. Share your plugin with the community!

@@ -35,11 +35,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build @augment/core
+      - name: Build @moduul/core
         working-directory: ./packages/core
         run: npm run build
       
-      - name: Build @augment/builder
+      - name: Build @moduul/builder
         working-directory: ./packages/builder
         run: npm run build
       
@@ -74,18 +74,18 @@ jobs:
             echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
           fi
       
-      - name: Publish @augment/core
-        working-directory: ./packages/core
+      - name: Publish @moduul/core
+        working-directory: ./packages/core 
         run: |
-          echo "Publishing @augment/core..."
+          echo "Publishing @moduul/core..."
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       
-      - name: Publish @augment/builder
+      - name: Publish @moduul/builder
         working-directory: ./packages/builder
         run: |
-          echo "Publishing @augment/builder..."
+          echo "Publishing @moduul/builder..."
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

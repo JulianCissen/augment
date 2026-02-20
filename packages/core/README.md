@@ -1,4 +1,4 @@
-# @augment/core
+# @moduul/core
 
 Core plugin host system for dynamically loading and managing plugins at runtime.
 
@@ -14,13 +14,13 @@ Core plugin host system for dynamically loading and managing plugins at runtime.
 ## Installation
 
 ```bash
-npm install @augment/core
+npm install @moduul/core
 ```
 
 ## Quick Start
 
 ```typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 // Define your plugin interface for type safety
 interface MyPlugin {
@@ -394,14 +394,14 @@ while (developing) {
 
 ## Dual-Format Package
 
-`@augment/core` is published in both ESM and CommonJS formats:
+`@moduul/core` is published in both ESM and CommonJS formats:
 
 ```javascript
 // ESM
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 // CommonJS
-const { PluginHost } = require('@augment/core');
+const { PluginHost } = require('@moduul/core');
 ```
 
 ## TypeScript Support
@@ -409,7 +409,7 @@ const { PluginHost } = require('@augment/core');
 Full type definitions included with generic type support:
 
 ```typescript
-import { PluginHost, PluginManifest, LoadedPlugin } from '@augment/core';
+import { PluginHost, PluginManifest, LoadedPlugin } from '@moduul/core';
 
 // Define your plugin interface
 interface MyPlugin {
@@ -481,8 +481,8 @@ const uiHost = new PluginHost<UIPlugin>({
 
 ## Related Packages
 
-- **[@augment/builder](../builder)** - CLI tool for building plugins
-- **[@augment/boilerplate](../boilerplate)** - Official plugin template
+- **[@moduul/builder](../builder)** - CLI tool for building plugins
+- **[@moduul/boilerplate](../boilerplate)** - Official plugin template
 
 ## License
 

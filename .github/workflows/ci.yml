@@ -28,11 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build @augment/core
+      - name: Build @moduul/core
         working-directory: ./packages/core
         run: npm run build
       
-      - name: Build @augment/builder
+      - name: Build @moduul/builder
         working-directory: ./packages/builder
         run: npm run build
       

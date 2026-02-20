@@ -1,9 +1,9 @@
 {
-  "name": "my-augment-plugin",
+  "name": "my-moduul-plugin",
   "version": "1.0.0",
   "entryPoint": "./index.js",
   "meta": {
-    "description": "A basic Augment plugin",
+    "description": "A basic Moduul plugin",
     "category": "general"
   }
 }

@@ -1,5 +1,5 @@
 /**
- * @augment/builder
+ * @moduul/builder
  * Plugin builder utilities
  */
 
@@ -11,7 +11,7 @@ import AdmZip from 'adm-zip';
 export const version = '0.0.0';
 
 /**
- * Plugin manifest structure (matching @augment/core types)
+ * Plugin manifest structure (matching @moduul/core types)
  */
 export interface PluginManifest {
   name: string;

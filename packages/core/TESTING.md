@@ -25,7 +25,7 @@ Pre-built plugins in `test-fixtures/` simulate real-world plugin deployment:
 - **plugin-cjs/** - Pure CommonJS with `module.exports`
 - **plugin-invalid/** - Invalid manifest for error handling tests
 
-Fixtures are pre-built (not source) to test the actual loading mechanism without circular dependencies on `@augment/builder`.
+Fixtures are pre-built (not source) to test the actual loading mechanism without circular dependencies on `@moduul/builder`.
 
 ## Running Tests
 

@@ -1,9 +1,9 @@
 {
   "name": "hello-world-plugin",
   "version": "1.0.0",
-  "description": "A simple hello world plugin example for Augment",
+  "description": "A simple hello world plugin example for Moduul",
   "keywords": [
-    "augment",
+    "moduul",
     "plugin",
     "example"
   ],
@@ -13,11 +13,11 @@
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "augment-builder build -i ./src -o ./dist",
-    "build:zip": "augment-builder build -i ./src -o ./dist --zip",
-    "dev": "augment-builder watch -i ./src -o ./dist"
+    "build": "moduul-builder build -i ./src -o ./dist",
+    "build:zip": "moduul-builder build -i ./src -o ./dist --zip",
+    "dev": "moduul-builder watch -i ./src -o ./dist"
   },
   "devDependencies": {
-    "@augment/builder": "^0.1.0"
+    "@moduul/builder": "^0.1.0"
   }
 }

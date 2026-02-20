@@ -117,7 +117,7 @@ describe('PluginScanner', () => {
       const result = await scanner.scanZipFiles();
 
       expect(result).toHaveLength(2);
-      expect(mockMkdir).toHaveBeenCalledWith(expect.stringContaining('augment-cache'), {
+      expect(mockMkdir).toHaveBeenCalledWith(expect.stringContaining('moduul-cache'), {
         recursive: true,
       });
       expect(mockZipInstance.extractAllTo).toHaveBeenCalledTimes(2);

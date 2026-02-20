@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "entryPoint": "./index.js",
   "meta": {
-    "description": "A simple hello world plugin demonstrating basic Augment plugin functionality",
+    "description": "A simple hello world plugin demonstrating basic Moduul plugin functionality",
     "category": "example",
-    "author": "Augment Team"
+    "author": "Moduul Team"
   }
 }

@@ -1,6 +1,6 @@
-# @augment/builder
+# @moduul/builder
 
-CLI tool for building plugins for the Augment plugin system. Bundles TypeScript source code into optimized JavaScript with automatic manifest handling.
+CLI tool for building plugins for the Moduul plugin system. Bundles TypeScript source code into optimized JavaScript with automatic manifest handling.
 
 ## Features
 
@@ -14,7 +14,7 @@ CLI tool for building plugins for the Augment plugin system. Bundles TypeScript 
 ## Installation
 
 ```bash
-npm install -D @augment/builder
+npm install -D @moduul/builder
 ```
 
 ## Quick Start
@@ -23,20 +23,20 @@ npm install -D @augment/builder
 
 ```bash
 # Build current directory
-augment-builder build
+moduul-builder build
 
 # Build specific entry point
-augment-builder build --entry src/index.ts
+moduul-builder build --entry src/index.ts
 
 # Specify output directory
-augment-builder build --out dist
+moduul-builder build --out dist
 ```
 
 ### Build with ZIP
 
 ```bash
 # Create plugin.zip for distribution
-augment-builder build --zip
+moduul-builder build --zip
 ```
 
 ## CLI Commands
@@ -46,7 +46,7 @@ augment-builder build --zip
 Bundles a plugin into a distributable format.
 
 ```bash
-augment-builder build [options]
+moduul-builder build [options]
 ```
 
 **Options:**
@@ -61,16 +61,16 @@ augment-builder build [options]
 
 ```bash
 # Default build
-augment-builder build
+moduul-builder build
 
 # Custom entry and output
-augment-builder build --entry src/main.ts --out build
+moduul-builder build --entry src/main.ts --out build
 
 # Build and zip
-augment-builder build --zip
+moduul-builder build --zip
 
 # Custom manifest location
-augment-builder build --manifest config/manifest.json
+moduul-builder build --manifest config/manifest.json
 ```
 
 ## Project Structure
@@ -233,7 +233,7 @@ npm init -y
 ### 2. Install Dependencies
 
 ```bash
-npm install -D @augment/builder typescript
+npm install -D @moduul/builder typescript
 ```
 
 ### 3. Create Files
@@ -245,10 +245,10 @@ npm install -D @augment/builder typescript
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "augment-builder build"
+    "build": "moduul-builder build"
   },
   "devDependencies": {
-    "@augment/builder": "*",
+    "@moduul/builder": "*",
     "typescript": "^5.0.0"
   }
 }
@@ -301,7 +301,7 @@ npm run build
 ### 5. Test with PluginHost
 
 ```typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 const host = new PluginHost({ folder: './my-plugin' });
 await host.reload();
@@ -341,7 +341,7 @@ npm install your-plugin
 ### Custom Entry Point
 
 ```bash
-augment-builder build --entry src/main.ts
+moduul-builder build --entry src/main.ts
 ```
 
 ### Multiple Outputs
@@ -350,10 +350,10 @@ Build multiple variants:
 
 ```bash
 # Development build
-augment-builder build --out dist-dev
+moduul-builder build --out dist-dev
 
 # Production build with zip
-augment-builder build --out dist-prod --zip
+moduul-builder build --out dist-prod --zip
 ```
 
 ### Integration with NPM Scripts
@@ -362,8 +362,8 @@ augment-builder build --out dist-prod --zip
 ```json
 {
   "scripts": {
-    "build": "augment-builder build",
-    "build:prod": "augment-builder build --zip",
+    "build": "moduul-builder build",
+    "build:prod": "moduul-builder build --zip",
     "clean": "rm -rf dist plugin.zip",
     "prepublishOnly": "npm run build:prod"
   }
@@ -402,7 +402,7 @@ ls src/index.ts  # Should exist
 You can also use the builder programmatically:
 
 ```typescript
-import { Builder } from '@augment/builder';
+import { Builder } from '@moduul/builder';
 
 const builder = new Builder({
   entry: 'src/index.ts',
@@ -415,8 +415,8 @@ await builder.build();
 
 ## Related Packages
 
-- **[@augment/core](../core)** - Plugin host system
-- **[@augment/boilerplate](../boilerplate)** - Official plugin template
+- **[@moduul/core](../core)** - Plugin host system
+- **[@moduul/boilerplate](../boilerplate)** - Official plugin template
 
 ## Requirements
 

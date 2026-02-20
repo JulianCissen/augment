@@ -1,5 +1,5 @@
 {
-  "name": "@augment/core",
+  "name": "@moduul/core",
   "version": "0.1.0",
   "description": "Core plugin host system for loading and managing plugins",
   "keywords": [
@@ -10,13 +10,13 @@
   ],
   "license": "MIT",
   "author": "Julian Cissen",
-  "homepage": "https://github.com/JulianCissen/augment",
+  "homepage": "https://github.com/JulianCissen/moduul",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JulianCissen/augment.git"
+    "url": "git+https://github.com/JulianCissen/moduul.git"
   },
   "bugs": {
-    "url": "https://github.com/JulianCissen/augment/issues"
+    "url": "https://github.com/JulianCissen/moduul/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",

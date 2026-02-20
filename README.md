@@ -1,4 +1,4 @@
-# Augment Plugin System
+# Moduul Plugin System
 
 A robust, TypeScript-native plugin system for Node.js applications that enables dynamic loading and management of extensions at runtime.
 
@@ -16,12 +16,12 @@ A robust, TypeScript-native plugin system for Node.js applications that enables 
 
 This monorepo contains the following packages:
 
-### [@augment/core](packages/core)
+### [@moduul/core](packages/core)
 
 Core plugin host system for loading and managing plugins.
 
 ```bash
-npm install @augment/core
+npm install @moduul/core
 ```
 
 **Key features:**
@@ -31,12 +31,12 @@ npm install @augment/core
 - Hot reload with cache busting
 - Custom validators
 
-### [@augment/builder](packages/builder)
+### [@moduul/builder](packages/builder)
 
 CLI tool for building and bundling plugins.
 
 ```bash
-npm install -D @augment/builder
+npm install -D @moduul/builder
 ```
 
 **Key features:**
@@ -52,7 +52,7 @@ npm install -D @augment/builder
 ### Creating a Plugin Host
 
 ```typescript
-import { PluginHost } from '@augment/core';
+import { PluginHost } from '@moduul/core';
 
 // Define your plugin interface
 interface MyPlugin {
@@ -89,7 +89,7 @@ for (const { manifest, plugin } of plugins) {
 mkdir my-plugin
 cd my-plugin
 npm init -y
-npm install -D @augment/builder typescript
+npm install -D @moduul/builder typescript
 ```
 
 **2. Create plugin files:**
@@ -121,7 +121,7 @@ export default {
 **3. Build your plugin:**
 
 ```bash
-npx augment-builder build
+npx moduul-builder build
 ```
 
 **4. Load it with the host:**
@@ -146,8 +146,8 @@ Check out the [examples](examples) directory for complete working examples:
 
 - **[Architecture](ARCHITECTURE.md)** - System architecture and design decisions
 - **[Plugin Authoring Guide](docs/authoring-guide.md)** - Complete guide to creating plugins
-- **[Core Package README](packages/core/README.md)** - API documentation for @augment/core
-- **[Builder Package README](packages/builder/README.md)** - CLI documentation for @augment/builder
+- **[Core Package README](packages/core/README.md)** - API documentation for @moduul/core
+- **[Builder Package README](packages/builder/README.md)** - CLI documentation for @moduul/builder
 - **[Testing Guide](packages/core/TESTING.md)** - Testing strategy and best practices
 
 ## Development
@@ -161,8 +161,8 @@ Check out the [examples](examples) directory for complete working examples:
 
 ```bash
 # Clone the repository
-git clone https://github.com/JulianCissen/augment.git
-cd augment
+git clone https://github.com/JulianCissen/moduul.git
+cd moduul
 
 # Install dependencies
 npm install
@@ -177,10 +177,10 @@ npm test
 ### Project Structure
 
 ```
-augment/
+moduul/
 ├── packages/
-│   ├── core/          # @augment/core - Plugin host system
-│   ├── builder/       # @augment/builder - Build CLI
+│   ├── core/          # @moduul/core - Plugin host system
+│   ├── builder/       # @moduul/builder - Build CLI
 │   └── boilerplate/   # Official plugin template
 ├── examples/
 │   └── hello-world/   # Example plugins
@@ -222,7 +222,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Links
 
-- [GitHub Repository](https://github.com/JulianCissen/augment)
-- [Issue Tracker](https://github.com/JulianCissen/augment/issues)
-- [NPM - @augment/core](https://www.npmjs.com/package/@augment/core)
-- [NPM - @augment/builder](https://www.npmjs.com/package/@augment/builder)
+- [GitHub Repository](https://github.com/JulianCissen/moduul)
+- [Issue Tracker](https://github.com/JulianCissen/moduul/issues)
+- [NPM - @moduul/core](https://www.npmjs.com/package/@moduul/core)
+- [NPM - @moduul/builder](https://www.npmjs.com/package/@moduul/builder)
