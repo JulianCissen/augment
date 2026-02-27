@@ -27,6 +27,7 @@ npm install @moduul/core
 **Key features:**
 - Generic type support for type-safe plugins
 - Directory and ZIP archive discovery
+- Single-plugin mode — load one plugin directly by path
 - Manifest validation
 - Hot reload with cache busting
 - Custom validators

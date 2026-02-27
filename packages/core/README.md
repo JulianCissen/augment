@@ -5,7 +5,8 @@ Core plugin host system for dynamically loading and managing plugins at runtime.
 ## Features
 
 - 🔌 **Dynamic Plugin Loading** - Load plugins from directories or ZIP archives at runtime
-- 🔥 **Hot Reload** - Cache-busting support for plugin reloading during development
+- � **Single-Plugin Mode** - Point directly at one plugin directory instead of scanning a folder
+- �🔥 **Hot Reload** - Cache-busting support for plugin reloading during development
 - 📦 **Multiple Formats** - Support for both ESM and CommonJS plugins
 - ✅ **Validation** - Built-in manifest validation with optional custom validators
 - 🎯 **Type-Safe** - Full TypeScript support with comprehensive type definitions
@@ -19,6 +20,8 @@ npm install @moduul/core
 
 ## Quick Start
 
+### Folder mode (scan a directory of plugins)
+
 ```typescript
 import { PluginHost } from '@moduul/core';
 
@@ -27,12 +30,12 @@ interface MyPlugin {
   execute(): Promise<string>;
 }
 
-// Create a typed plugin host
+// Create a typed plugin host pointing at a folder of plugin subdirectories
 const host = new PluginHost<MyPlugin>({
   folder: './plugins'
 });
 
-// Load all plugins
+// Load all plugins found in the folder
 await host.reload();
 
 // Get all loaded plugins (typed!)
@@ -43,6 +46,29 @@ console.log(`Loaded ${plugins.length} plugins`);
 const plugin = host.find('my-plugin');
 if (plugin) {
   // Full type safety and autocomplete
+  const result = await plugin.plugin.execute();
+  console.log(result);
+}
+```
+
+### Single-plugin mode (load one plugin directly)
+
+```typescript
+import { PluginHost } from '@moduul/core';
+
+interface MyPlugin {
+  execute(): Promise<string>;
+}
+
+// Point directly at a single plugin directory
+const host = new PluginHost<MyPlugin>({
+  pluginPath: '/absolute/path/to/my-plugin'
+});
+
+await host.reload();
+
+const plugin = host.find('my-plugin');
+if (plugin) {
   const result = await plugin.plugin.execute();
   console.log(result);
 }
@@ -105,12 +131,25 @@ if (plugin) {
 new PluginHost<T>(options: PluginHostOptions<T>)
 ```
 
-**Options:**
+`PluginHostOptions<T>` is a union type with two mutually exclusive modes:
 
-- `folder` (string, required) - Path to the directory containing plugins
-- `validator?` (function, optional) - Custom validation function that ensures plugins match type `T`
+**Folder mode** — scan a directory for plugin subdirectories (or `.zip` archives):
 
-**Example with validator:**
+| Option | Type | Required | Description |
+|---|---|---|---|
+| `folder` | `string` | ✓ | Path to the directory that contains plugin subdirectories or `.zip` archives |
+| `validator` | `(plugin: unknown) => plugin is T` | | Type guard to validate each loaded plugin |
+
+**Single-plugin mode** — load exactly one plugin from a specific directory:
+
+| Option | Type | Required | Description |
+|---|---|---|---|
+| `pluginPath` | `string` | ✓ | Path to a single plugin directory (must contain `plugin.manifest.json`) |
+| `validator` | `(plugin: unknown) => plugin is T` | | Type guard to validate the loaded plugin |
+
+> The two modes are mutually exclusive: use either `folder` **or** `pluginPath`, never both.
+
+**Example — folder mode with validator:**
 
 ```typescript
 interface MyPlugin {
@@ -121,6 +160,22 @@ interface MyPlugin {
 const host = new PluginHost<MyPlugin>({
   folder: './plugins',
   // Type guard that validates plugin structure
+  validator: (plugin): plugin is MyPlugin => {
+    return (
+      typeof plugin === 'object' &&
+      plugin !== null &&
+      typeof (plugin as any).execute === 'function' &&
+      typeof (plugin as any).version === 'string'
+    );
+  }
+});
+```
+
+**Example — single-plugin mode with validator:**
+
+```typescript
+const host = new PluginHost<MyPlugin>({
+  pluginPath: '/opt/plugins/my-plugin',
   validator: (plugin): plugin is MyPlugin => {
     return (
       typeof plugin === 'object' &&
@@ -220,14 +275,25 @@ const plugin: LoadedPlugin<MyPlugin> | undefined = host.find('test');
 
 #### `PluginHostOptions<T>`
 
-Configuration options for `PluginHost`:
+Union of `PluginHostFolderOptions<T>` and `PluginHostSingleOptions<T>`.
 
 ```typescript
-interface PluginHostOptions<T> {
-  folder: string;                            // Plugin directory path
-  validator?: (plugin: unknown) => plugin is T;  // Type guard validator
+// Folder scan mode
+interface PluginHostFolderOptions<T> {
+  folder: string;                                // Directory containing plugin subdirectories / ZIPs
+  validator?: (plugin: unknown) => plugin is T;  // Optional type guard
 }
+
+// Single-plugin mode
+interface PluginHostSingleOptions<T> {
+  pluginPath: string;                            // Path to one plugin directory
+  validator?: (plugin: unknown) => plugin is T;  // Optional type guard
+}
+
+type PluginHostOptions<T> = PluginHostFolderOptions<T> | PluginHostSingleOptions<T>;
 ```
+
+Both constituent types are exported and can be used for narrowing or explicit annotation.
 
 ## Plugin Structure
 
@@ -406,10 +472,10 @@ const { PluginHost } = require('@moduul/core');
 
 ## TypeScript Support
 
-Full type definitions included with generic type support:
+Full type definitions included with generic type support. All option types are exported:
 
 ```typescript
-import { PluginHost, PluginManifest, LoadedPlugin } from '@moduul/core';
+import { PluginHost, PluginManifest, LoadedPlugin, PluginHostFolderOptions, PluginHostSingleOptions } from '@moduul/core';
 
 // Define your plugin interface
 interface MyPlugin {
