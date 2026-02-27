@@ -22,20 +22,20 @@ npm install -D @moduul/builder
 ### Basic Build
 
 ```bash
-# Build current directory
+# Build current directory (defaults: input=./src, output=./dist, format=esm)
 moduul-builder build
 
-# Build specific entry point
-moduul-builder build --entry src/index.ts
+# Specify input and output directories
+moduul-builder build --input src --output dist
 
-# Specify output directory
-moduul-builder build --out dist
+# Build as CommonJS
+moduul-builder build --format cjs
 ```
 
 ### Build with ZIP
 
 ```bash
-# Create plugin.zip for distribution
+# Create a ZIP archive for distribution
 moduul-builder build --zip
 ```
 
@@ -51,26 +51,30 @@ moduul-builder build [options]
 
 **Options:**
 
-- `-e, --entry <file>` - Entry point file (default: `src/index.ts`)
-- `-o, --out <dir>` - Output directory (default: `dist`)
-- `-z, --zip` - Create ZIP archive after build
-- `-m, --manifest <file>` - Path to manifest file (default: `plugin.manifest.json`)
+- `-i, --input <path>` - Input directory containing plugin source (default: `./src`)
+- `-o, --output <path>` - Output directory for built plugin (default: `./dist`)
+- `-f, --format <format>` - Output module format: `esm`, `cjs`, or `iife` (default: `esm`)
+- `-m, --minify` - Minify the output (default: `false`)
+- `--zip` - Create a ZIP archive of the built plugin
 - `-h, --help` - Display help
 
 **Examples:**
 
 ```bash
-# Default build
+# Default build (ESM output)
 moduul-builder build
 
-# Custom entry and output
-moduul-builder build --entry src/main.ts --out build
+# Build as CommonJS
+moduul-builder build --format cjs
+
+# Custom input/output directories
+moduul-builder build --input src --output build
 
 # Build and zip
 moduul-builder build --zip
 
-# Custom manifest location
-moduul-builder build --manifest config/manifest.json
+# Minified CJS build with ZIP
+moduul-builder build --format cjs --minify --zip
 ```
 
 ## Project Structure
@@ -130,11 +134,11 @@ The builder performs these steps:
 
 The builder uses esbuild with these settings:
 
-- **Format:** ESM (ES Modules)
-- **Target:** ES2022
+- **Format:** ESM by default; override with `--format cjs` or `--format iife`
+- **Target:** Node 20
 - **Bundle:** true (all dependencies bundled)
-- **Minify:** false (readable output)
-- **Source Maps:** true (inline)
+- **Minify:** false by default; enable with `--minify`
+- **Source Maps:** true
 - **Tree Shaking:** Automatic
 
 ## TypeScript Support
@@ -153,10 +157,23 @@ export default {
 };
 ```
 
-**Output (dist/index.js):**
+**Output (dist/index.js, ESM):**
 ```javascript
 // Compiled and bundled ES module
 export default {
+  name: 'my-plugin',
+  version: '1.0.0',
+  
+  async execute() {
+    return 'Hello from TypeScript!';
+  }
+};
+```
+
+**Output (dist/index.js, CJS) — built with `--format cjs`:**
+```javascript
+// Compiled and bundled CommonJS module
+module.exports = {
   name: 'my-plugin',
   version: '1.0.0',
   
@@ -245,7 +262,8 @@ npm install -D @moduul/builder typescript
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "moduul-builder build"
+    "build": "moduul-builder build",
+    "build:cjs": "moduul-builder build --format cjs"
   },
   "devDependencies": {
     "@moduul/builder": "*",
@@ -338,10 +356,24 @@ npm install your-plugin
 
 ## Advanced Usage
 
-### Custom Entry Point
+### Choosing a Module Format
 
 ```bash
-moduul-builder build --entry src/main.ts
+# ESM output (default)
+moduul-builder build --format esm
+
+# CommonJS output (required by some host environments)
+moduul-builder build --format cjs
+
+# IIFE output (browser-compatible self-executing bundle)
+moduul-builder build --format iife
+```
+
+### Custom Directories
+
+```bash
+# Custom input/output paths
+moduul-builder build --input src --output build
 ```
 
 ### Multiple Outputs
@@ -349,11 +381,11 @@ moduul-builder build --entry src/main.ts
 Build multiple variants:
 
 ```bash
-# Development build
-moduul-builder build --out dist-dev
+# Development ESM build
+moduul-builder build --output dist-dev
 
-# Production build with zip
-moduul-builder build --out dist-prod --zip
+# Production CJS build with zip
+moduul-builder build --format cjs --output dist-prod --zip
 ```
 
 ### Integration with NPM Scripts
@@ -363,8 +395,9 @@ moduul-builder build --out dist-prod --zip
 {
   "scripts": {
     "build": "moduul-builder build",
-    "build:prod": "moduul-builder build --zip",
-    "clean": "rm -rf dist plugin.zip",
+    "build:cjs": "moduul-builder build --format cjs",
+    "build:prod": "moduul-builder build --minify --zip",
+    "clean": "rm -rf dist",
     "prepublishOnly": "npm run build:prod"
   }
 }
@@ -402,15 +435,23 @@ ls src/index.ts  # Should exist
 You can also use the builder programmatically:
 
 ```typescript
-import { Builder } from '@moduul/builder';
+import { buildPlugin, watchPlugin } from '@moduul/builder';
 
-const builder = new Builder({
-  entry: 'src/index.ts',
-  outDir: 'dist',
-  manifestPath: 'plugin.manifest.json'
+// Build once
+await buildPlugin({
+  input: './src',
+  output: './dist',
+  format: 'cjs',   // 'esm' | 'cjs' | 'iife' — defaults to 'esm'
+  minify: false,
+  zip: false,
 });
 
-await builder.build();
+// Watch mode
+await watchPlugin({
+  input: './src',
+  output: './dist',
+  format: 'esm',
+});
 ```
 
 ## Related Packages

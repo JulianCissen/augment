@@ -26,6 +26,7 @@ export interface PluginManifest {
 export interface BuildOptions {
   input: string;
   output: string;
+  format?: 'esm' | 'cjs' | 'iife';
   minify?: boolean;
   zip?: boolean;
 }
@@ -36,6 +37,7 @@ export interface BuildOptions {
 export interface WatchOptions {
   input: string;
   output: string;
+  format?: 'esm' | 'cjs' | 'iife';
 }
 
 /**
@@ -142,7 +144,7 @@ export async function buildPlugin(options: BuildOptions): Promise<void> {
   const buildOptions: esbuild.BuildOptions = {
     entryPoints: [entryPoint],
     bundle: true,
-    format: 'esm',
+    format: options.format ?? 'esm',
     platform: 'node',
     target: 'node20',
     outfile: join(outputDir, 'index.js'),
@@ -215,7 +217,7 @@ export async function watchPlugin(options: WatchOptions): Promise<void> {
   const buildOptions: esbuild.BuildOptions = {
     entryPoints: [entryPoint],
     bundle: true,
-    format: 'esm',
+    format: options.format ?? 'esm',
     platform: 'node',
     target: 'node20',
     outfile: join(outputDir, 'index.js'),

@@ -18,6 +18,7 @@ program
   .description('Build a plugin from TypeScript source')
   .option('-i, --input <path>', 'Input directory containing plugin source', './src')
   .option('-o, --output <path>', 'Output directory for built plugin', './dist')
+  .option('-f, --format <format>', 'Output module format: esm, cjs, or iife', 'esm')
   .option('-m, --minify', 'Minify the output', false)
   .option('--zip', 'Create a ZIP archive of the built plugin', false)
   .action(async (options: BuildOptions) => {
@@ -38,6 +39,7 @@ program
   .description('Watch for changes and rebuild automatically')
   .option('-i, --input <path>', 'Input directory containing plugin source', './src')
   .option('-o, --output <path>', 'Output directory for built plugin', './dist')
+  .option('-f, --format <format>', 'Output module format: esm, cjs, or iife', 'esm')
   .action(async (options: WatchOptions) => {
     try {
       console.log('Starting watch mode...');

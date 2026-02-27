@@ -69,7 +69,8 @@ npm install -D @moduul/builder typescript
   "type": "module",
   "scripts": {
     "build": "moduul-builder build",
-    "dev": "moduul-builder build --watch"
+    "build:cjs": "moduul-builder build --format cjs",
+    "dev": "moduul-builder watch"
   },
   "devDependencies": {
     "@moduul/builder": "^0.0.0",
@@ -318,8 +319,17 @@ export default ConfigurablePlugin;
 ### Build Your Plugin
 
 ```bash
+# Default build (ESM output)
 npm run build
+
+# Build as CommonJS
+moduul-builder build --format cjs
 ```
+
+The `--format` flag controls the output module format:
+- `esm` (default) — ES Modules, suitable for modern environments
+- `cjs` — CommonJS, required by some host environments or older Node.js tooling
+- `iife` — Self-executing bundle, useful for browser contexts
 
 This creates:
 ```
