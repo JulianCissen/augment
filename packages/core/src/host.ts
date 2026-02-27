@@ -69,7 +69,18 @@ export class PluginHost<T = unknown> {
       const loadedModule = await import(fileUrl.href) as { default?: T };
 
       // Extract the default export or the entire module
-      const pluginCode: unknown = loadedModule.default ?? loadedModule;
+      let pluginCode: unknown = loadedModule.default ?? loadedModule;
+      // esbuild CJS bundles with `export default` produce:
+      //   module.exports = { __esModule: true, default: actualPlugin }
+      // which import() wraps again as loadedModule.default — unwrap the interop layer.
+      if (
+        pluginCode !== null &&
+        typeof pluginCode === 'object' &&
+        (pluginCode as Record<string, unknown>).__esModule === true &&
+        (pluginCode as Record<string, unknown>).default !== undefined
+      ) {
+        pluginCode = (pluginCode as Record<string, unknown>).default;
+      }
 
       // Validate the plugin if a validator is provided
       if (this.options.validator) {

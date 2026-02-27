@@ -1,6 +1,6 @@
 {
   "name": "@moduul/builder",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "CLI tool for building plugins for the Moduul plugin system",
   "keywords": [
     "plugin",
