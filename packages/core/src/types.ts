@@ -27,12 +27,13 @@ export interface PluginManifest {
 }
 
 /**
- * Configuration options for initializing the PluginHost
+ * Configuration options for the PluginHost in multi-plugin (folder scan) mode.
+ * The host will scan the folder for subdirectories (or .zip archives) that each
+ * contain a `plugin.manifest.json`.
  */
-export interface PluginHostOptions<T> {
+export interface PluginHostFolderOptions<T> {
   /**
-   * Filesystem path where plugins are located.
-   * Can contain plugin folders or .zip archives.
+   * Filesystem path to a directory containing plugin subdirectories or .zip archives.
    */
   folder: string;
 
@@ -44,6 +45,35 @@ export interface PluginHostOptions<T> {
    */
   validator?: (plugin: unknown) => plugin is T;
 }
+
+/**
+ * Configuration options for the PluginHost in single-plugin mode.
+ * The host loads exactly one plugin from the given directory, which must
+ * contain a `plugin.manifest.json` at its root.
+ */
+export interface PluginHostSingleOptions<T> {
+  /**
+   * Filesystem path to a single plugin directory.
+   * The directory must contain a `plugin.manifest.json` file.
+   */
+  pluginPath: string;
+
+  /**
+   * Optional runtime validator to ensure loaded plugins match expected signature.
+   * Use TypeScript type guards for type-safe validation.
+   * @param plugin - The loaded plugin module
+   * @returns true if plugin matches type T
+   */
+  validator?: (plugin: unknown) => plugin is T;
+}
+
+/**
+ * Configuration options for initializing the PluginHost.
+ *
+ * Use `folder` (multi-plugin mode) to scan a directory for plugin subdirectories,
+ * or `pluginPath` (single-plugin mode) to load one specific plugin directory directly.
+ */
+export type PluginHostOptions<T> = PluginHostFolderOptions<T> | PluginHostSingleOptions<T>;
 
 /**
  * Represents a successfully loaded plugin with its manifest and code

@@ -5,6 +5,7 @@ import { suppressExpectedWarnings } from './__tests__/test-helpers.js';
 
 describe('PluginHost - Jest Integration Tests (CJS)', () => {
   const fixturesPath = resolve(__dirname, '../test-fixtures');
+  const cjsPluginPath = resolve(__dirname, '../test-fixtures/plugin-cjs');
   let consoleWarnSpy: jest.SpiedFunction<typeof console.warn>;
 
   beforeEach(() => {
@@ -184,6 +185,71 @@ describe('PluginHost - Jest Integration Tests (CJS)', () => {
 
       // Should have warned about validation failures
       expect(consoleSpy).toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe('Single-plugin mode (pluginPath)', () => {
+    it('should load the CJS plugin directly via pluginPath', async () => {
+      const host = new PluginHost({ pluginPath: cjsPluginPath });
+
+      await host.reload();
+
+      const plugins = host.getAll();
+      expect(plugins).toHaveLength(1);
+      expect(plugins[0].manifest.name).toBe('test-plugin-cjs');
+    });
+
+    it('should find the directly-loaded plugin by name', async () => {
+      const host = new PluginHost({ pluginPath: cjsPluginPath });
+
+      await host.reload();
+
+      const plugin = host.find('test-plugin-cjs');
+      expect(plugin).toBeDefined();
+      expect(plugin?.manifest.version).toBe('1.0.0');
+    });
+
+    it('should not load sibling plugins when using pluginPath', async () => {
+      // Only the explicitly pointed-at plugin should be loaded, not the whole fixtures folder
+      const host = new PluginHost({ pluginPath: cjsPluginPath });
+
+      await host.reload();
+
+      const plugins = host.getAll();
+      expect(plugins).toHaveLength(1);
+    });
+
+    it('should reload the single plugin on subsequent calls', async () => {
+      const host = new PluginHost({ pluginPath: cjsPluginPath });
+
+      await host.reload();
+      const first = host.find('test-plugin-cjs');
+      expect(first).toBeDefined();
+
+      await host.reload();
+      const second = host.find('test-plugin-cjs');
+      expect(second).toBeDefined();
+      expect(second?.manifest.name).toBe(first?.manifest.name);
+    });
+
+    it('should apply the validator in single-plugin mode', async () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+      interface StrictPlugin { strictMethod: () => void; }
+      const validator = (p: unknown): p is StrictPlugin =>
+        typeof p === 'object' && p !== null && 'strictMethod' in p;
+
+      const host = new PluginHost<StrictPlugin>({ pluginPath: cjsPluginPath, validator });
+
+      await host.reload();
+
+      // CJS fixture does not have strictMethod – should be rejected
+      expect(host.getAll()).toHaveLength(0);
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Plugin validation failed'),
+      );
 
       consoleSpy.mockRestore();
     });
