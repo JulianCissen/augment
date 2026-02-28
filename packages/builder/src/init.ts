@@ -16,8 +16,8 @@ const templates = {
     description: options.description ?? 'A plugin for the Moduul plugin system',
     type: 'module',
     scripts: {
-      build: 'moduul-builder build',
-      watch: 'moduul-builder watch',
+      build: 'moduul build',
+      watch: 'moduul watch',
     },
     keywords: ['moduul', 'plugin'],
     author: options.author ?? '',

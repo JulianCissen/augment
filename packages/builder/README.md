@@ -23,20 +23,20 @@ npm install -D @moduul/builder
 
 ```bash
 # Build current directory (defaults: input=./src, output=./dist, format=esm)
-moduul-builder build
+moduul build
 
 # Specify input and output directories
-moduul-builder build --input src --output dist
+moduul build --input src --output dist
 
 # Build as CommonJS
-moduul-builder build --format cjs
+moduul build --format cjs
 ```
 
 ### Build with ZIP
 
 ```bash
 # Create a ZIP archive for distribution
-moduul-builder build --zip
+moduul build --zip
 ```
 
 ## CLI Commands
@@ -46,7 +46,7 @@ moduul-builder build --zip
 Bundles a plugin into a distributable format.
 
 ```bash
-moduul-builder build [options]
+moduul build [options]
 ```
 
 **Options:**
@@ -62,19 +62,19 @@ moduul-builder build [options]
 
 ```bash
 # Default build (ESM output)
-moduul-builder build
+moduul build
 
 # Build as CommonJS
-moduul-builder build --format cjs
+moduul build --format cjs
 
 # Custom input/output directories
-moduul-builder build --input src --output build
+moduul build --input src --output build
 
 # Build and zip
-moduul-builder build --zip
+moduul build --zip
 
 # Minified CJS build with ZIP
-moduul-builder build --format cjs --minify --zip
+moduul build --format cjs --minify --zip
 ```
 
 ## Project Structure
@@ -262,8 +262,8 @@ npm install -D @moduul/builder typescript
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "moduul-builder build",
-    "build:cjs": "moduul-builder build --format cjs"
+    "build": "moduul build",
+    "build:cjs": "moduul build --format cjs"
   },
   "devDependencies": {
     "@moduul/builder": "*",
@@ -360,20 +360,20 @@ npm install your-plugin
 
 ```bash
 # ESM output (default)
-moduul-builder build --format esm
+moduul build --format esm
 
 # CommonJS output (required by some host environments)
-moduul-builder build --format cjs
+moduul build --format cjs
 
 # IIFE output (browser-compatible self-executing bundle)
-moduul-builder build --format iife
+moduul build --format iife
 ```
 
 ### Custom Directories
 
 ```bash
 # Custom input/output paths
-moduul-builder build --input src --output build
+moduul build --input src --output build
 ```
 
 ### Multiple Outputs
@@ -382,10 +382,10 @@ Build multiple variants:
 
 ```bash
 # Development ESM build
-moduul-builder build --output dist-dev
+moduul build --output dist-dev
 
 # Production CJS build with zip
-moduul-builder build --format cjs --output dist-prod --zip
+moduul build --format cjs --output dist-prod --zip
 ```
 
 ### Integration with NPM Scripts
@@ -394,9 +394,9 @@ moduul-builder build --format cjs --output dist-prod --zip
 ```json
 {
   "scripts": {
-    "build": "moduul-builder build",
-    "build:cjs": "moduul-builder build --format cjs",
-    "build:prod": "moduul-builder build --minify --zip",
+    "build": "moduul build",
+    "build:cjs": "moduul build --format cjs",
+    "build:prod": "moduul build --minify --zip",
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run build:prod"
   }

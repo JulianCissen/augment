@@ -122,7 +122,7 @@ export default {
 **3. Build your plugin:**
 
 ```bash
-npx moduul-builder build
+npx moduul build
 ```
 
 **4. Load it with the host:**

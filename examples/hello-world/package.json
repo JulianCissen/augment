@@ -13,11 +13,11 @@
   "type": "module",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "moduul-builder build -i ./src -o ./dist",
-    "build:zip": "moduul-builder build -i ./src -o ./dist --zip",
-    "dev": "moduul-builder watch -i ./src -o ./dist"
+    "build": "moduul build -i ./src -o ./dist",
+    "build:zip": "moduul build -i ./src -o ./dist --zip",
+    "dev": "moduul watch -i ./src -o ./dist"
   },
   "devDependencies": {
-    "@moduul/builder": "^0.1.0"
+    "@moduul/builder": "^0.1.4"
   }
 }

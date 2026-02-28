@@ -68,9 +68,9 @@ npm install -D @moduul/builder typescript
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "moduul-builder build",
-    "build:cjs": "moduul-builder build --format cjs",
-    "dev": "moduul-builder watch"
+    "build": "moduul build",
+    "build:cjs": "moduul build --format cjs",
+    "dev": "moduul watch"
   },
   "devDependencies": {
     "@moduul/builder": "^0.0.0",
@@ -323,7 +323,7 @@ export default ConfigurablePlugin;
 npm run build
 
 # Build as CommonJS
-moduul-builder build --format cjs
+moduul build --format cjs
 ```
 
 The `--format` flag controls the output module format:

@@ -9,7 +9,7 @@ import { stdin as input, stdout as output } from 'process';
 const program = new Command();
 
 program
-  .name('moduul-builder')
+  .name('moduul')
   .description('CLI tool for building plugins for the Moduul plugin system')
   .version('0.0.0');
 

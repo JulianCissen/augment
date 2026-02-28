@@ -20,7 +20,7 @@
   },
   "type": "module",
   "bin": {
-    "moduul-builder": "./dist/bin/moduul-builder.js"
+    "moduul": "./dist/bin/moduul.js"
   },
   "files": [
     "dist",
